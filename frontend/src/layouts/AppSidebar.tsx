@@ -39,6 +39,7 @@ import {
 import { HttpUtil } from '@/utils';
 import { formatPanelVersion } from '@/lib/panel-version';
 import { pauseAnimationsUntilLeave, useTheme } from '@/hooks/useTheme';
+import { useSakura } from '@/hooks/useSakura';
 import { useAllSettings } from '@/api/queries/useAllSettings';
 import mascotUrl from '@/assets/mascot.png';
 import './AppSidebar.css';
@@ -175,6 +176,7 @@ function saveSidebarPinned(pinned: boolean) {
 export default function AppSidebar() {
   const { t } = useTranslation();
   const { isDark, isUltra, toggleTheme, toggleUltra } = useTheme();
+  const [sakuraEnabled, setSakuraEnabled] = useSakura();
   const navigate = useNavigate();
   const { pathname, hash } = useLocation();
   const { allSetting } = useAllSettings();
@@ -379,6 +381,16 @@ export default function AppSidebar() {
           </div>
           {!railCollapsed && (
             <div className="brand-actions">
+              <button
+                type="button"
+                className={`sidebar-theme-cycle sakura-toggle${sakuraEnabled ? ' sakura-toggle-on' : ''}`}
+                aria-label={sakuraEnabled ? '关闭樱花特效' : '开启樱花特效'}
+                aria-pressed={sakuraEnabled}
+                title={sakuraEnabled ? '关闭樱花特效' : '开启樱花特效'}
+                onClick={() => setSakuraEnabled(!sakuraEnabled)}
+              >
+                <span aria-hidden="true">🌸</span>
+              </button>
               <button
                 type="button"
                 className="sidebar-pin"

@@ -21,6 +21,28 @@
   background: linear-gradient(135deg, #fff0f5 0%, #ffe4ec 45%, #fdf3ff 100%);
 }
 
+/* Full-screen art behind the login form; gradient stays as the fallback
+   layer beneath it. Dark modes dim the art so the form stays readable. */
+.login-bg {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.85;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.login-app.is-dark .login-bg {
+  opacity: 0.45;
+}
+
+.login-app.is-dark.is-ultra .login-bg {
+  opacity: 0.35;
+}
+
 .login-app.is-dark {
   --bg-page: #191420;
   --bg-card: rgba(34, 26, 46, 0.6);
@@ -64,9 +86,9 @@
   max-width: 900px;
   max-height: 900px;
   border-radius: 50%;
-  filter: blur(100px);
+  filter: blur(56px);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
   will-change: transform;
 }
 
@@ -74,6 +96,7 @@
   top: -25vw;
   left: -20vw;
   background: radial-gradient(circle, var(--blob-1) 0%, transparent 65%);
+  filter: blur(56px);
   animation: blob-drift-a 24s ease-in-out infinite alternate;
 }
 
@@ -81,6 +104,7 @@
   bottom: -25vw;
   right: -20vw;
   background: radial-gradient(circle, var(--blob-2) 0%, transparent 65%);
+  filter: blur(56px);
   animation: blob-drift-b 30s ease-in-out infinite alternate;
 }
 
@@ -95,9 +119,9 @@
   max-height: 700px;
   border-radius: 50%;
   background: radial-gradient(circle, var(--blob-3) 0%, transparent 65%);
-  filter: blur(100px);
+  filter: blur(48px);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
   will-change: transform;
   animation: blob-drift-c 36s ease-in-out infinite alternate;
 }
@@ -113,9 +137,9 @@
   max-height: 500px;
   border-radius: 50%;
   background: radial-gradient(circle, var(--blob-4) 0%, transparent 65%);
-  filter: blur(90px);
+  filter: blur(44px);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
   will-change: transform;
   animation: blob-drift-d 28s ease-in-out infinite alternate;
 }
@@ -131,9 +155,9 @@
   max-height: 500px;
   border-radius: 50%;
   background: radial-gradient(circle, var(--blob-5) 0%, transparent 65%);
-  filter: blur(90px);
+  filter: blur(44px);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
   will-change: transform;
   animation: blob-drift-e 32s ease-in-out infinite alternate;
 }
@@ -150,7 +174,7 @@
   -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
   mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 @keyframes blob-drift-a {
@@ -457,108 +481,25 @@
   margin-bottom: 0;
 }
 
-/* Sakura petals: pure-CSS falling petals above the gradient blobs. */
-.sakura {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
+/* Sakura toggle in the login toolbar (AppSidebar.css is not loaded here). */
+.login-toolbar .sakura-toggle {
+  font-size: 18px;
+  line-height: 1;
 }
 
-.sakura-petal {
-  position: absolute;
-  top: -6%;
-  width: 14px;
-  height: 14px;
-  border-radius: 150% 0 150% 0;
-  background: linear-gradient(135deg, #f9a8d4, #fbcfe8);
-  opacity: 0;
-  animation: sakura-fall var(--duration, 14s) linear var(--delay, 0s) infinite;
-  will-change: transform, opacity;
+.login-toolbar .sakura-toggle span {
+  display: inline-flex;
+  filter: grayscale(1) opacity(0.55);
+  transition:
+    filter 0.2s,
+    transform 0.15s;
 }
 
-.sakura-petal:nth-child(1) {
-  left: 5%;
-  --duration: 13s;
-  --delay: 0s;
-  --sway: 70px;
-  --scale: 0.9;
-}
-.sakura-petal:nth-child(2) {
-  left: 14%;
-  --duration: 17s;
-  --delay: 3.2s;
-  --sway: 55px;
-  --scale: 1.1;
-}
-.sakura-petal:nth-child(3) {
-  left: 26%;
-  --duration: 15s;
-  --delay: 1.4s;
-  --sway: 80px;
-  --scale: 0.8;
-}
-.sakura-petal:nth-child(4) {
-  left: 38%;
-  --duration: 19s;
-  --delay: 5.1s;
-  --sway: 60px;
-  --scale: 1.05;
-}
-.sakura-petal:nth-child(5) {
-  left: 52%;
-  --duration: 14.5s;
-  --delay: 2.3s;
-  --sway: 75px;
-  --scale: 0.95;
-}
-.sakura-petal:nth-child(6) {
-  left: 63%;
-  --duration: 18s;
-  --delay: 6.4s;
-  --sway: 50px;
-  --scale: 1.15;
-}
-.sakura-petal:nth-child(7) {
-  left: 76%;
-  --duration: 15.5s;
-  --delay: 0.8s;
-  --sway: 65px;
-  --scale: 0.85;
-}
-.sakura-petal:nth-child(8) {
-  left: 88%;
-  --duration: 16.5s;
-  --delay: 4.2s;
-  --sway: 55px;
-  --scale: 1;
+.login-toolbar .sakura-toggle:hover span {
+  transform: scale(1.15);
 }
 
-@keyframes sakura-fall {
-  0% {
-    transform: translateY(-8vh) translateX(0) rotate(0deg) scale(var(--scale, 1));
-    opacity: 0;
-  }
-  8% {
-    opacity: 0.85;
-  }
-  50% {
-    transform: translateY(50vh) translateX(var(--sway, 60px)) rotate(180deg) scale(var(--scale, 1));
-  }
-  92% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: translateY(106vh) translateX(calc(var(--sway, 60px) * -0.5)) rotate(360deg)
-      scale(var(--scale, 1));
-    opacity: 0.1;
-  }
+.login-toolbar .sakura-toggle.sakura-toggle-on span {
+  filter: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .sakura-petal {
-    animation: none;
-    opacity: 0;
-  }
-}

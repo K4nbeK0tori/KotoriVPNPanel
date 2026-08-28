@@ -2,7 +2,8 @@ import { Outlet } from 'react-router';
 
 import { useWebSocketBridge } from '@/api/websocketBridge';
 import { usePageTitle } from '@/hooks/usePageTitle';
-import panelMascotUrl from '@/assets/panel-mascot.png';
+import SakuraLayer from '@/components/SakuraLayer';
+import panelBgUrl from '@/assets/panel-bg.png';
 
 export default function PanelLayout() {
   useWebSocketBridge();
@@ -11,9 +12,10 @@ export default function PanelLayout() {
     <>
       <div
         className="panel-bg-mascot"
-        style={{ backgroundImage: `url(${panelMascotUrl})` }}
+        style={{ backgroundImage: `url(${panelBgUrl})` }}
         aria-hidden="true"
       />
+      <SakuraLayer />
       <Outlet />
     </>
   );

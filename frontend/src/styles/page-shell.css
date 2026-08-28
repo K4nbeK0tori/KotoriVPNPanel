@@ -227,31 +227,24 @@ body.dark .ant-dropdown-menu-item-divider {
   }
 }
 
-/* Panel background mascot: large, centered standee behind every authenticated
-   panel page. It fades in on mount and gently floats like the login-page
-   mascot. pointer-events none so nothing blocks clicks; hidden on small
-   screens so it never covers content. */
+/* Panel background: full-screen art behind every authenticated panel page.
+   pointer-events none so nothing blocks clicks; hidden on small screens. */
 .panel-bg-mascot {
   position: fixed;
-  left: 50%;
-  top: 50%;
-  width: min(60vw, 620px);
-  height: min(60vw, 620px);
-  background-size: contain;
+  inset: 0;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: 0.75;
+  opacity: 0.5;
   pointer-events: none;
   user-select: none;
   z-index: 0;
-  animation:
-    mascot-fade-in 1.2s ease both,
-    pmascot-float 6s ease-in-out 1.2s infinite;
-  will-change: transform, opacity;
+  animation: mascot-fade-in 1s ease both;
+  will-change: opacity;
 }
 
 body.dark .panel-bg-mascot {
-  opacity: 0.65;
+  opacity: 0.35;
 }
 
 @keyframes mascot-fade-in {
@@ -259,14 +252,12 @@ body.dark .panel-bg-mascot {
     opacity: 0;
   }
   100% {
-    opacity: 0.75;
+    opacity: 0.5;
   }
 }
 
 body.dark .panel-bg-mascot {
-  animation:
-    mascot-fade-in-dark 1.2s ease both,
-    pmascot-float 6s ease-in-out 1.2s infinite;
+  animation: mascot-fade-in-dark 1s ease both;
 }
 
 @keyframes mascot-fade-in-dark {
@@ -274,26 +265,13 @@ body.dark .panel-bg-mascot {
     opacity: 0;
   }
   100% {
-    opacity: 0.65;
-  }
-}
-
-/* Same gentle sway the login-page standee uses, with the centering
-   translate(-50%, -50%) folded into the keyframes so it never jumps. */
-@keyframes pmascot-float {
-  0%,
-  100% {
-    transform: translate(-50%, calc(-50% - 4px)) rotate(-1.2deg);
-  }
-  50% {
-    transform: translate(-50%, calc(-50% - 18px)) rotate(1.2deg);
+    opacity: 0.35;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .panel-bg-mascot {
     animation: none;
-    transform: translate(-50%, -50%);
   }
 }
 

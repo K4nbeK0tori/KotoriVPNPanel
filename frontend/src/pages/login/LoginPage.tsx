@@ -27,8 +27,11 @@ import { HttpUtil, LanguageManager } from '@/utils';
 import { FormField, rhfZodValidate } from '@/components/form/rhf';
 import { setMessageInstance } from '@/utils/messageBus';
 import { pauseAnimationsUntilLeave, useTheme } from '@/hooks/useTheme';
+import { useSakura } from '@/hooks/useSakura';
+import SakuraLayer from '@/components/SakuraLayer';
 import { LoginFormSchema, TwoFactorCodeSchema, type LoginFormValues } from '@/schemas/login';
 import mascotUrl from '@/assets/mascot.png';
+import loginBgUrl from '@/assets/login-bg.png';
 import './LoginPage.css';
 
 const HEADLINE_INTERVAL_MS = 2000;
@@ -40,6 +43,7 @@ const basePath = window.X_UI_BASE_PATH || '';
 export default function LoginPage() {
   const { t } = useTranslation();
   const { isDark, isUltra, toggleTheme, toggleUltra, antdThemeConfig } = useTheme();
+  const [sakuraEnabled, setSakuraEnabled] = useSakura();
   const [messageApi, messageContextHolder] = message.useMessage();
 
   useEffect(() => {
@@ -134,8 +138,23 @@ export default function LoginPage() {
     <ConfigProvider theme={antdThemeConfig}>
       {messageContextHolder}
       <Layout className={pageClass}>
+        <div
+          className="login-bg"
+          style={{ backgroundImage: `url(${loginBgUrl})` }}
+          aria-hidden="true"
+        />
         <Layout.Content className="login-content">
           <div className="login-toolbar">
+            <Button
+              shape="circle"
+              size="large"
+              className={`toolbar-btn sakura-toggle${sakuraEnabled ? ' sakura-toggle-on' : ''}`}
+              aria-label={sakuraEnabled ? '关闭樱花特效' : '开启樱花特效'}
+              title={sakuraEnabled ? '关闭樱花特效' : '开启樱花特效'}
+              onClick={() => setSakuraEnabled(!sakuraEnabled)}
+            >
+              <span aria-hidden="true">🌸</span>
+            </Button>
             <Button
               id="login-theme-cycle"
               shape="circle"
@@ -173,16 +192,7 @@ export default function LoginPage() {
           </div>
 
           <div className="login-wrapper">
-            <div className="sakura" aria-hidden="true">
-              <span className="sakura-petal" />
-              <span className="sakura-petal" />
-              <span className="sakura-petal" />
-              <span className="sakura-petal" />
-              <span className="sakura-petal" />
-              <span className="sakura-petal" />
-              <span className="sakura-petal" />
-              <span className="sakura-petal" />
-            </div>
+            <SakuraLayer />
             {!fetched ? (
               <div className="login-loading">
                 <Spin size="large" />
