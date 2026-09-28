@@ -9,10 +9,12 @@
 
 # Ignore log files
 *.log
+log/
 
 # Ignore temporary files
 tmp/
 *.tar.gz
+*.7z
 
 # Ignore build and distribution directories
 backup/
