@@ -1,0 +1,1 @@
+var e=(window.X_UI_BASE_PATH||`/`)+`assets/mascot-F0K3TmOu.png`;export{e as t};
